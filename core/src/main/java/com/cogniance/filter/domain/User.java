@@ -2,8 +2,9 @@ package com.cogniance.filter.domain;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Sample user class.
@@ -20,16 +21,11 @@ public class User extends AbstractPersistable<Long> {
 	private String firstname;
 	private String lastname;
 
-	public User() {
-		this(null);
-	}
+    @OneToOne(cascade = CascadeType.ALL)
+    private RoleUserPersonalInfo personalInfo;
 
-	/**
-	 * Creates a new user instance.
-	 */
-	public User(Long id) {
-		this.setId(id);
-	}
+    @ManyToMany
+    private Set<Role> roles = new HashSet<Role>();
 
 	/**
 	 * Returns the username.
@@ -75,4 +71,20 @@ public class User extends AbstractPersistable<Long> {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
+
+    public RoleUserPersonalInfo getPersonalInfo() {
+        return personalInfo;
+    }
+
+    public void setPersonalInfo(RoleUserPersonalInfo personalInfo) {
+        this.personalInfo = personalInfo;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

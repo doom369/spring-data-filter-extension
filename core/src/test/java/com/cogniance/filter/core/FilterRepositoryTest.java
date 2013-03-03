@@ -1,15 +1,8 @@
 package com.cogniance.filter.core;
 
 import com.cogniance.filter.domain.User;
-import com.cogniance.filter.repositories.SimpleFilterRepository;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,7 +21,7 @@ public class FilterRepositoryTest extends AbstractRepositoryTest {
 	public void hasUsernameEqual() throws Exception {
         Specification<User> spec = filter("username", "foobar1");
 
-        List<User> users = repository.findAll(spec);
+        List<User> users = userRepository.findAll(spec);
         assertNotNull(users);
         assertEquals(1, users.size());
 	}
@@ -44,7 +37,7 @@ public class FilterRepositoryTest extends AbstractRepositoryTest {
                         spec1, spec2, spec3
                 );
 
-        List<User> users = repository.findAll(spec);
+        List<User> users = userRepository.findAll(spec);
         assertNotNull(users);
         assertEquals(1, users.size());
    	}
@@ -57,7 +50,7 @@ public class FilterRepositoryTest extends AbstractRepositoryTest {
                         SpecificationBuilder.<User>filter("lastname", "lastname2")
                 );
 
-        List<User> users = repository.findAll(spec);
+        List<User> users = userRepository.findAll(spec);
         assertNotNull(users);
         assertEquals(0, users.size());
     }
@@ -70,7 +63,7 @@ public class FilterRepositoryTest extends AbstractRepositoryTest {
                         SpecificationBuilder.<User>filter("lastname", "lastname2")
                 );
 
-        List<User> users = repository.findAll(spec);
+        List<User> users = userRepository.findAll(spec);
         assertNotNull(users);
         assertEquals(2, users.size());
     }
