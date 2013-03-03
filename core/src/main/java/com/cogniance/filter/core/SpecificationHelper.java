@@ -174,6 +174,9 @@ public final class SpecificationHelper {
             return true;
         }
         */
+        if (Collection.class.isAssignableFrom(path.getJavaType()) || path.getJavaType().isArray()) {
+            return true;
+        }
         Attribute.PersistentAttributeType persistentAttributeType = null;
         if (path.getModel() instanceof SingularAttribute) {
             persistentAttributeType = ((SingularAttribute) path.getModel()).getPersistentAttributeType();

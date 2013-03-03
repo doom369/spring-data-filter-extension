@@ -14,7 +14,6 @@ import static org.junit.Assert.assertNotNull;
 /**
  *
  */
-@Ignore("Doesn't work for some reason. PluralAttributePath is used in path instead of PluralAttributeJoinSupport.")
 public class ManyToManyJoinRepositoryTest extends AbstractRepositoryTest {
 
 	@Test
@@ -24,6 +23,6 @@ public class ManyToManyJoinRepositoryTest extends AbstractRepositoryTest {
         List<User> users = userRepository.findAll(spec);
         assertNotNull(users);
         assertEquals(1, users.size());
-        assertEquals(user2.getUsername(), users.get(0));
+        assertEquals(user2.getUsername(), users.get(0).getUsername());
     }
 }
