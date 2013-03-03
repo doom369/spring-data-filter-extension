@@ -15,37 +15,14 @@ import java.util.List;
 
 import static com.cogniance.filter.core.SpecificationBuilder.and;
 import static com.cogniance.filter.core.SpecificationBuilder.filter;
+import static com.cogniance.filter.core.SpecificationBuilder.or;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:infrastructure.xml")
-@Transactional
-public class FilterRepositoryTest {
-
-	@Autowired
-    private SimpleFilterRepository repository;
-
-    private User user;
-
-	@Before
-	public void setUp() {
-		user = new User();
-		user.setUsername("foobar1");
-		user.setFirstname("firstname1");
-		user.setLastname("lastname1");
-
-        user = repository.save(user);
-	}
-
-    @Test
-   	public void isDataReady() throws Exception {
-        user = repository.findOne(user.getId());
-        assertNotNull(user);
-    }
+public class FilterRepositoryTest extends AbstractRepositoryTest {
 
 	@Test
 	public void hasUsernameEqual() throws Exception {
@@ -72,5 +49,29 @@ public class FilterRepositoryTest {
         assertEquals(1, users.size());
    	}
 
+    @Test
+    public void hasFirstnameAndLastnameEqual() throws Exception {
+        Specification<User> spec =
+                and(
+                        SpecificationBuilder.<User>filter("firstname", "firstname1"),
+                        SpecificationBuilder.<User>filter("lastname", "lastname2")
+                );
 
+        List<User> users = repository.findAll(spec);
+        assertNotNull(users);
+        assertEquals(0, users.size());
+    }
+
+    @Test
+    public void hasFirstnameOrLastnameEqual() throws Exception {
+        Specification<User> spec =
+                or(
+                        SpecificationBuilder.<User>filter("firstname", "firstname1"),
+                        SpecificationBuilder.<User>filter("lastname", "lastname2")
+                );
+
+        List<User> users = repository.findAll(spec);
+        assertNotNull(users);
+        assertEquals(2, users.size());
+    }
 }
